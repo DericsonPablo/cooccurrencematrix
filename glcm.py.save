@@ -1,0 +1,22 @@
+
+# -*- coding: utf-8 -*-
+from skimage.feature import greycomatrix, greycoprops #funcao do pacote skimage para calcular a matriz GLCM e os atributos da matriz
+from skimage.io import imread #importando a funcao imread para leitura da imagem
+from skimage.color import rgb2grey #importando funcao rgb2grey que converte a imagem para cinza
+import numpy as np
+
+
+image_path = "/home/dericson/Downloads/teste.jpg" #endereco da imagem
+image = imread(image_path) #leitura da imagem
+image_gray = rgb2grey(image) #transformar de RGB para nivel de cinza
+d = 1 #distancia escolhida entre os pixels para fazer a relação da GLCM
+matrix = greycomatrix(image_gray,[d],[0],normed=True) #calculo da matriz em 0 graus
+props = np.zeros((6)) # vetor para armazenar atributos (no caso o vetor que identifica os dados do usuario)
+props[0] = greycoprops(matrix, 'contrast') #calcula constrast
+props[1] = greycoprops(matrix, 'dissimilarity') #calcula a dissimilaridade
+props[2] = greycoprops(matrix, 'homogeneity') #calcula homogeneidade
+props[3] = greycoprops(matrix, 'energy') #calcula energia
+props[4] = greycoprops(matrix, 'correlation') #calcula correlacao
+props[5] = greycoprops(matrix, 'ASM') #calcula o segundo momento angular
+for i in range(6): #imprimindo vetor com os resultados de cada função, sendo o vetor a identificação do usuário
+	print props[i]
